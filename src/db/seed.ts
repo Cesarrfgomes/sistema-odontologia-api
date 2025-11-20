@@ -4,7 +4,7 @@ import { schema } from './schema/index.ts'
 
 await reset(db, schema)
 
-await seed(db, schema.client).refine((f) => {
+await seed(db, [schema.client]).refine((f) => {
     return{
         client: {
             name: f.firstName(),

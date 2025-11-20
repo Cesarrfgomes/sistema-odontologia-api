@@ -14,6 +14,7 @@ const createUserSchema = z.object({
 export const createUser: FastifyPluginCallbackZod = (app) => {
     app.post('/usuarios', {
         schema: {
+            tags: ['users'],
             body: createUserSchema,
             response: {
                 201: z.object({

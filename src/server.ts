@@ -11,6 +11,8 @@ import fastifySwagger from '@fastify/swagger'
 import ScalarApiRefecence from '@scalar/fastify-api-reference'
 import { createClient } from './http/routes/client/create-client.ts'
 import { createUser } from './http/routes/user/create.user.ts'
+import fastifyJwt from '@fastify/jwt'
+import { auth } from './http/routes/user/auth.ts'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -36,8 +38,16 @@ app.register(ScalarApiRefecence, {
 	routePrefix: '/docs',
 })
 
+app.register(fastifyJwt, {
+	secret: env.JWT_SECRET,
+	sign: {
+		expiresIn: '8h',
+	}
+})
+
 app.get('/health', (): string => 'OK')
 
+app.register(auth)
 app.register(createClient)
 app.register(createUser)
 
