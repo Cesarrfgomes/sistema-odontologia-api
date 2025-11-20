@@ -10,37 +10,39 @@ export class ClientRepository {
     }
 
     async findById(id: string): Promise<Client | null> {
-        const client = await db.select().from(schema.client).where(eq(schema.client.id, id))
+        const [client] = await db.select().from(schema.client).where(eq(schema.client.id, id))
 
         if (!client) {
             return null
         }
 
-        return client[0]
+        return client
     }
 
     async findByEmail(email: string): Promise<Client | null> {
-        const client = await db.select().from(schema.client).where(eq(schema.client.email, email))
+        const [client] = await db.select().from(schema.client).where(eq(schema.client.email, email))
 
         if (!client) {
             return null
         }
 
-        return client[0]
+        return client
     }
 
     async findByCpf(cpf: string): Promise<Client | null> {
-        const client = await db.select().from(schema.client).where(eq(schema.client.cpf, cpf))
+        const [client] = await db.select().from(schema.client).where(eq(schema.client.cpf, cpf))
 
         if (!client) {
             return null
         }
 
-        return client[0]
+        return client
     }
 
-    async create(client: Client) {
-        return await db.insert(schema.client).values(client).returning()
+    async create(data: Client): Promise<{id: string}> {
+        const [newClient] = await db.insert(schema.client).values(data).returning({id: schema.client.id})
+
+        return newClient
     }
 }
 

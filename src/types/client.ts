@@ -5,5 +5,4 @@ export type Client = {
     phone: string
     cpf: string
     createdAt?: Date
-    updatedAt?: Date
 }

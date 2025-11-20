@@ -1,11 +1,11 @@
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
-import { uuidv7 } from "uuidv7";
+import {uuidv7} from 'uuidv7'
 
-export const client = pgTable('client', {
+export const user = pgTable('user', {
     id: text().primaryKey().$default(() => uuidv7()),
-    name: text().notNull(),
+    username: text().notNull().unique(),
+    fullName: text().notNull(),
     email: text().notNull().unique(),
-    phone: text().notNull(),
-    cpf: text().notNull().unique(),
+    password: text().notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
 })

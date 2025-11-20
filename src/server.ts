@@ -9,7 +9,8 @@ import {
 import { env } from './env/index.ts'
 import fastifySwagger from '@fastify/swagger'
 import ScalarApiRefecence from '@scalar/fastify-api-reference'
-import { createClient } from './http/routes/create-client.ts'
+import { createClient } from './http/routes/client/create-client.ts'
+import { createUser } from './http/routes/user/create.user.ts'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -38,6 +39,7 @@ app.register(ScalarApiRefecence, {
 app.get('/health', (): string => 'OK')
 
 app.register(createClient)
+app.register(createUser)
 
 app.listen({ port: env.PORT }).then(() => {
 	console.log(`HTTP server is running on port ${process.env.PORT}`)
