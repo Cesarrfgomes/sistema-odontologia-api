@@ -14,7 +14,7 @@ export const auth: FastifyPluginCallbackZod = (app) => {
             }),
             response: {
                 200: z.object({
-                    token: z.string(),
+                    access_token: z.string(),
                 }),
                 401: z.object({
                     message: z.string(),
@@ -44,6 +44,6 @@ export const auth: FastifyPluginCallbackZod = (app) => {
             }
         })
 
-        return reply.status(200).send({ token })
+        return reply.status(200).send({ access_token: token })
     })
 }
