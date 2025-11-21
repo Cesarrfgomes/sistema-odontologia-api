@@ -1,8 +1,9 @@
+import { compare, hash } from 'bcrypt'
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import { userRepository } from '../../../db/repositories/user-repository.ts'
-import { compare } from 'bcrypt'
-import { env } from '../../../env/index.ts'
+
+console.log((await hash('12345678', 10)) as string)
 
 export const auth: FastifyPluginCallbackZod = (app) => {
 	app.post(

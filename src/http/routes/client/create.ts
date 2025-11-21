@@ -1,6 +1,7 @@
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import { clientRepository } from '../../../db/repositories/client-repository.ts'
+import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
 
 const createClientSchema = z.object({
@@ -11,8 +12,6 @@ const createClientSchema = z.object({
 })
 
 export const createClient: FastifyPluginCallbackZod = (app) => {
-	app.addHook('onRequest', verifyJwt)
-
 	app.post(
 		'/clientes',
 		{
@@ -32,6 +31,7 @@ export const createClient: FastifyPluginCallbackZod = (app) => {
 					}),
 				},
 			},
+			onRequest: [verifyJwt, verifyAdmin],
 		},
 		async (request, reply) => {
 			const { name, email, phone, cpf } = request.body

@@ -1,5 +1,4 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 
 export const verifyJwt = async (
 	request: FastifyRequest,

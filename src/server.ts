@@ -1,18 +1,18 @@
 import fastifyCors from '@fastify/cors'
+import fastifyJwt from '@fastify/jwt'
+import fastifySwagger from '@fastify/swagger'
+import ScalarApiRefecence from '@scalar/fastify-api-reference'
 import { fastify } from 'fastify'
 import {
+	jsonSchemaTransform,
 	serializerCompiler,
 	validatorCompiler,
-	jsonSchemaTransform,
 	type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from './env/index.ts'
-import fastifySwagger from '@fastify/swagger'
-import ScalarApiRefecence from '@scalar/fastify-api-reference'
-import { createClient } from './http/routes/client/create-client.ts'
-import { createUser } from './http/routes/user/create.user.ts'
-import fastifyJwt from '@fastify/jwt'
+import { createClient } from './http/routes/client/create.ts'
 import { auth } from './http/routes/user/auth.ts'
+import { createUser } from './http/routes/user/create.ts'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
