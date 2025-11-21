@@ -5,13 +5,17 @@ import { schema } from './schema/index.ts'
 
 await reset(db, schema)
 
-await seed(db, [schema.client]).refine((f) => {
+await seed(db, [schema.patient]).refine((f) => {
 	return {
-		client: {
+		patient: {
 			id: f.uuid(),
-			name: f.firstName(),
+			fullName: f.fullName(),
 			email: f.email(),
-			phone: f.phoneNumber(),
+			phoneNumber: f.phoneNumber(),
+			birthDate: f.date({
+				minDate: new Date('1940-01-01'),
+				maxDate: new Date(),
+			}),
 			cpf: f.int({ minValue: 10000000000, maxValue: 99999999999 }),
 		},
 	}
