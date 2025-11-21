@@ -1,23 +1,24 @@
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z from 'zod'
-import { clientRepository } from '../../../db/repositories/client-repository.ts'
+import { patientRepository } from '../../../db/repositories/patient-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
 
-const createClientSchema = z.object({
-	name: z.string(),
+const createPatientSchema = z.object({
+	fullName: z.string(),
 	email: z.email(),
-	phone: z.string().min(10).max(15),
+	phoneNumber: z.string().min(10).max(15),
+	birthDate: z.date(),
 	cpf: z.string().min(11).max(14),
 })
 
-export const createClient: FastifyPluginCallbackZod = (app) => {
+export const createPatient: FastifyPluginCallbackZod = (app) => {
 	app.post(
 		'/clientes',
 		{
 			schema: {
 				tags: ['clients'],
-				body: createClientSchema,
+				body: createPatientSchema,
 				response: {
 					201: z.object({
 						id: z.string(),
@@ -34,23 +35,29 @@ export const createClient: FastifyPluginCallbackZod = (app) => {
 			onRequest: [verifyJwt, verifyAdmin],
 		},
 		async (request, reply) => {
-			const { name, email, phone, cpf } = request.body
+			const { fullName, email, phoneNumber, cpf, birthDate } = request.body
 
-			const clientByEmail = await clientRepository.findByEmail(email)
+			const patientByEmail = await patientRepository.findByEmail(email)
 
-			if (clientByEmail) {
+			if (patientByEmail) {
 				return reply.status(400).send({ message: 'Email already exists' })
 			}
 
-			const clientByCpf = await clientRepository.findByCpf(cpf)
+			const patientByCpf = await patientRepository.findByCpf(cpf)
 
-			if (clientByCpf) {
+			if (patientByCpf) {
 				return reply.status(400).send({ message: 'CPF already exists' })
 			}
 
-			const client = await clientRepository.create({ name, email, phone, cpf })
+			const patient = await patientRepository.create({
+				fullName,
+				email,
+				phoneNumber,
+				cpf,
+				birthDate,
+			})
 
-			return reply.status(201).send({ id: client.id })
+			return reply.status(201).send({ id: patient.id })
 		},
 	)
 }
