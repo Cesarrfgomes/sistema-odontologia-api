@@ -1,0 +1,1 @@
+ALTER TABLE "procedure" RENAME COLUMN "duration" TO "duration_in_minutes";

@@ -1,27 +1,41 @@
 {
-	"version": "7",
-	"dialect": "postgresql",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "7",
-			"when": 1763605270764,
-			"tag": "0000_overjoyed_the_fury",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "7",
-			"when": 1763640171003,
-			"tag": "0001_typical_blob",
-			"breakpoints": true
-		},
-		{
-			"idx": 2,
-			"version": "7",
-			"when": 1763687640540,
-			"tag": "0002_fresh_ben_parker",
-			"breakpoints": true
-		}
-	]
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1763605270764,
+      "tag": "0000_overjoyed_the_fury",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1763640171003,
+      "tag": "0001_typical_blob",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1763687640540,
+      "tag": "0002_fresh_ben_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1763692199925,
+      "tag": "0003_slow_northstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1763692617390,
+      "tag": "0004_opposite_harpoon",
+      "breakpoints": true
+    }
+  ]
 }

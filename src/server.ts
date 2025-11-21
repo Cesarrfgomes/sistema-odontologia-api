@@ -11,6 +11,8 @@ import {
 } from 'fastify-type-provider-zod'
 import { env } from './env/index.ts'
 import { createClient } from './http/routes/client/create.ts'
+import { createProcedure } from './http/routes/procedure/create.ts'
+import { createProcedureCategory } from './http/routes/procedure/create-category.ts'
 import { auth } from './http/routes/user/auth.ts'
 import { createUser } from './http/routes/user/create.ts'
 
@@ -50,6 +52,8 @@ app.get('/health', (): string => 'OK')
 app.register(auth)
 app.register(createClient)
 app.register(createUser)
+app.register(createProcedureCategory)
+app.register(createProcedure)
 
 app.listen({ port: env.PORT }).then(() => {
 	console.log(`HTTP server is running on port ${process.env.PORT}`)
