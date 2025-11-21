@@ -43,6 +43,13 @@
       "when": 1763693068237,
       "tag": "0005_nostalgic_zzzax",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1763762237156,
+      "tag": "0006_redundant_tempest",
+      "breakpoints": true
     }
   ]
 }
