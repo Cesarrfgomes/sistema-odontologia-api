@@ -10,6 +10,7 @@ import {
 	type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from './env/index.ts'
+import { healthCheckRoute } from './http/routes/health-check.ts'
 import { createPatient } from './http/routes/patient/create.ts'
 import { createProcedure } from './http/routes/procedure/create.ts'
 import { createProcedureCategory } from './http/routes/procedure/create-category.ts'
@@ -47,7 +48,7 @@ app.register(fastifyJwt, {
 	},
 })
 
-app.get('/health', (): string => 'OK')
+app.register(healthCheckRoute)
 
 app.register(auth)
 app.register(createPatient)

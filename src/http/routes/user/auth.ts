@@ -9,6 +9,7 @@ export const auth: FastifyPluginCallbackZod = (app) => {
 		{
 			schema: {
 				tags: ['users'],
+				description: 'Autenticar um usuário',
 				body: z.object({
 					username: z.string(),
 					password: z.string(),

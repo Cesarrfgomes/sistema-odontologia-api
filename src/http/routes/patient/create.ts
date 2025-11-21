@@ -14,10 +14,11 @@ const createPatientSchema = z.object({
 
 export const createPatient: FastifyPluginCallbackZod = (app) => {
 	app.post(
-		'/clientes',
+		'/pacientes',
 		{
 			schema: {
-				tags: ['clients'],
+				tags: ['patients'],
+				description: 'Criar um novo paciente',
 				body: createPatientSchema,
 				response: {
 					201: z.object({

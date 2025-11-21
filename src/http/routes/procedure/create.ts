@@ -20,6 +20,7 @@ export const createProcedure: FastifyPluginCallbackZod = (app) => {
 		{
 			schema: {
 				tags: ['procedures'],
+				description: 'Criar um novo procedimento',
 				body: createProcedureSchema,
 				response: {
 					201: z.object({

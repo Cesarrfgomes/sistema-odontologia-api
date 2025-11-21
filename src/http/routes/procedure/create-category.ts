@@ -15,6 +15,7 @@ export const createProcedureCategory: FastifyPluginCallbackZod = (app) => {
 		{
 			schema: {
 				tags: ['procedures'],
+				description: 'Criar uma nova categoria de procedimento',
 				body: createProcedureCategorySchema,
 				response: {
 					201: z.object({
@@ -37,7 +38,9 @@ export const createProcedureCategory: FastifyPluginCallbackZod = (app) => {
 			const categoryByName = await procedureCategoryRepository.findByName(name)
 
 			if (categoryByName) {
-				return reply.status(400).send({ message: 'Category name already exists' })
+				return reply
+					.status(400)
+					.send({ message: 'Category name already exists' })
 			}
 
 			const category = await procedureCategoryRepository.create({
