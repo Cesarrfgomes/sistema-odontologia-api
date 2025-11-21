@@ -1,20 +1,27 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1763605270764,
-      "tag": "0000_overjoyed_the_fury",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1763640171003,
-      "tag": "0001_typical_blob",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1763605270764,
+			"tag": "0000_overjoyed_the_fury",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1763640171003,
+			"tag": "0001_typical_blob",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1763687640540,
+			"tag": "0002_fresh_ben_parker",
+			"breakpoints": true
+		}
+	]
 }

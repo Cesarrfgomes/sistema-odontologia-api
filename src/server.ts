@@ -3,8 +3,8 @@ import { fastify } from 'fastify'
 import {
 	serializerCompiler,
 	validatorCompiler,
-    jsonSchemaTransform,
-	type ZodTypeProvider
+	jsonSchemaTransform,
+	type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from './env/index.ts'
 import fastifySwagger from '@fastify/swagger'
@@ -17,7 +17,7 @@ import { auth } from './http/routes/user/auth.ts'
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
 app.register(fastifyCors, {
-	origin: '*'
+	origin: '*',
 })
 
 app.setSerializerCompiler(serializerCompiler)
@@ -28,10 +28,10 @@ app.register(fastifySwagger, {
 		info: {
 			title: 'Dentist API',
 			version: '1.0.0',
-			description: 'API for the dentist'
-		}
+			description: 'API for the dentist',
+		},
 	},
-	transform: jsonSchemaTransform
+	transform: jsonSchemaTransform,
 })
 
 app.register(ScalarApiRefecence, {
@@ -42,7 +42,7 @@ app.register(fastifyJwt, {
 	secret: env.JWT_SECRET,
 	sign: {
 		expiresIn: '8h',
-	}
+	},
 })
 
 app.get('/health', (): string => 'OK')
@@ -53,5 +53,5 @@ app.register(createUser)
 
 app.listen({ port: env.PORT }).then(() => {
 	console.log(`HTTP server is running on port ${process.env.PORT}`)
-    console.log(`Docs are available at http://localhost:${env.PORT}/docs`)
+	console.log(`Docs are available at http://localhost:${env.PORT}/docs`)
 })
