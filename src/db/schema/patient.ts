@@ -5,10 +5,11 @@ export const patient = pgTable('patient', {
 	id: text()
 		.primaryKey()
 		.$default(() => uuidv7()),
-	fullName: text().notNull(),
+	fullName: text('full_name').notNull(),
 	email: text().notNull().unique(),
-	phoneNumber: text().notNull(),
+	phoneNumber: text('phone_number').notNull(),
 	cpf: text().notNull().unique(),
 	birthDate: date('birth_date').notNull(),
 	createdAt: timestamp('created_at').notNull().defaultNow(),
+	updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
