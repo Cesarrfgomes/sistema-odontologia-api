@@ -12,6 +12,8 @@ import {
 import { env } from './env/index.ts'
 import { healthCheckRoute } from './http/routes/health-check.ts'
 import { createPatient } from './http/routes/patient/create.ts'
+import { createPaymentMethod } from './http/routes/payment/create-method.ts'
+import { createPaymentPlan } from './http/routes/payment/create-plan.ts'
 import { createProcedure } from './http/routes/procedure/create.ts'
 import { createProcedureCategory } from './http/routes/procedure/create-category.ts'
 import { auth } from './http/routes/user/auth.ts'
@@ -55,6 +57,8 @@ app.register(createPatient)
 app.register(createUser)
 app.register(createProcedureCategory)
 app.register(createProcedure)
+app.register(createPaymentMethod)
+app.register(createPaymentPlan)
 
 app.listen({ port: env.PORT }).then(() => {
 	console.log(`HTTP server is running on port ${process.env.PORT}`)

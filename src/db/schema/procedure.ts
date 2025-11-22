@@ -1,15 +1,13 @@
 import {
+	boolean,
 	integer,
 	numeric,
-	pgEnum,
 	pgTable,
 	text,
 	timestamp
 } from 'drizzle-orm/pg-core'
 import { uuidv7 } from 'uuidv7'
 import { procedureCategory } from './procedure-category.ts'
-
-export const procedureStatus = pgEnum('procedure_status', ['ativo', 'inativo'])
 
 export const procedure = pgTable('procedimento', {
 	id: text()
@@ -22,6 +20,6 @@ export const procedure = pgTable('procedimento', {
 		.references(() => procedureCategory.id),
 	value: numeric('valor', { precision: 10, scale: 2 }).notNull(),
 	durationInMinutes: integer('duracao_em_minutos').notNull(),
-	status: procedureStatus().default('ativo').notNull(),
+	isActive: boolean('ativo').notNull().default(true),
 	createdAt: timestamp('criado_em').notNull().defaultNow()
 })

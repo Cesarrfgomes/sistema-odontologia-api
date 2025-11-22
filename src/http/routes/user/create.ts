@@ -11,10 +11,10 @@ const createUserSchema = z.object({
 	email: z.email(),
 	password: z.string().min(8),
 	role: z.enum(['basic', 'admin']).optional().default('basic'),
-	confirmPassword: z.string().min(8),
+	confirmPassword: z.string().min(8)
 })
 
-export const createUser: FastifyPluginCallbackZod = (app) => {
+export const createUser: FastifyPluginCallbackZod = app => {
 	app.post(
 		'/usuarios',
 		{
@@ -24,27 +24,37 @@ export const createUser: FastifyPluginCallbackZod = (app) => {
 				body: createUserSchema,
 				response: {
 					201: z.object({
-						id: z.string(),
+						id: z.string()
 					}),
 					400: z.object({
-						message: z.string(),
-					}),
-				},
+						message: z.string()
+					})
+				}
 			},
-			onRequest: [verifyJwt, verifyAdmin],
+			onRequest: [verifyJwt, verifyAdmin]
 		},
 		async (request, reply) => {
-			const { fullName, username, email, password, confirmPassword, role } =
-				request.body
+			const {
+				fullName,
+				username,
+				email,
+				password,
+				confirmPassword,
+				role
+			} = request.body
 
 			const userByEmail = await userRepository.findByEmail(email)
 
 			if (userByEmail) {
-				return reply.status(400).send({ message: 'Email already exists' })
+				return reply
+					.status(400)
+					.send({ message: 'Email already exists' })
 			}
 
 			if (password !== confirmPassword) {
-				return reply.status(400).send({ message: 'Passwords do not match' })
+				return reply
+					.status(400)
+					.send({ message: 'Passwords do not match' })
 			}
 
 			const encryptedPassword = await hash(password, 10)
@@ -54,10 +64,10 @@ export const createUser: FastifyPluginCallbackZod = (app) => {
 				username,
 				email,
 				password: encryptedPassword,
-				role,
+				role
 			})
 
 			return reply.status(201).send({ id })
-		},
+		}
 	)
 }

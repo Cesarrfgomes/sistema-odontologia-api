@@ -1,4 +1,4 @@
-import { date, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { boolean, date, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { uuidv7 } from 'uuidv7'
 
 export const patient = pgTable('paciente', {
@@ -11,5 +11,5 @@ export const patient = pgTable('paciente', {
 	cpf: text('cpf').notNull().unique(),
 	birthDate: date('data_nascimento').notNull(),
 	createdAt: timestamp('criado_em').notNull().defaultNow(),
-	updatedAt: timestamp('atualizado_em').notNull().defaultNow()
+	isActive: boolean('ativo').notNull().default(true)
 })
