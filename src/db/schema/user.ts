@@ -2,6 +2,7 @@ import { pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { uuidv7 } from 'uuidv7'
 
 export const userRole = pgEnum('role', ['basic', 'admin', 'doctor'])
+export const userStatus = pgEnum('status', ['ativo', 'inativo'])
 
 export const user = pgTable('user', {
 	id: text()
@@ -12,5 +13,6 @@ export const user = pgTable('user', {
 	email: text().notNull().unique(),
 	password: text().notNull(),
 	role: userRole().default('basic').notNull(),
+	status: userStatus().default('ativo').notNull(),
 	createdAt: timestamp('created_at').notNull().defaultNow(),
 })
