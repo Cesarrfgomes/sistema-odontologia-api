@@ -5,50 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1763605270764,
-      "tag": "0000_overjoyed_the_fury",
+      "when": 1763822611513,
+      "tag": "0000_chief_husk",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1763640171003,
-      "tag": "0001_typical_blob",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1763687640540,
-      "tag": "0002_fresh_ben_parker",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1763692199925,
-      "tag": "0003_slow_northstar",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1763692617390,
-      "tag": "0004_opposite_harpoon",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1763693068237,
-      "tag": "0005_nostalgic_zzzax",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1763762237156,
-      "tag": "0006_redundant_tempest",
+      "when": 1763822649269,
+      "tag": "0001_chemical_sleepwalker",
       "breakpoints": true
     }
   ]

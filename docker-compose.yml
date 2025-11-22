@@ -6,6 +6,6 @@ services:
         environment:
             POSTGRES_USER: docker
             POSTGRES_PASSWORD: docker
-            POSTGRES_DB: dentist
+            POSTGRES_DB: meudente
         volumes:
             - ./docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql

@@ -1,15 +1,15 @@
 import { date, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { uuidv7 } from 'uuidv7'
 
-export const patient = pgTable('patient', {
+export const patient = pgTable('paciente', {
 	id: text()
 		.primaryKey()
 		.$default(() => uuidv7()),
-	fullName: text('full_name').notNull(),
-	email: text().notNull().unique(),
-	phoneNumber: text('phone_number').notNull(),
-	cpf: text().notNull().unique(),
-	birthDate: date('birth_date').notNull(),
-	createdAt: timestamp('created_at').notNull().defaultNow(),
-	updatedAt: timestamp('updated_at').notNull().defaultNow(),
+	fullName: text('nome').notNull(),
+	email: text('email').notNull().unique(),
+	phoneNumber: text('telefone').notNull(),
+	cpf: text('cpf').notNull().unique(),
+	birthDate: date('data_nascimento').notNull(),
+	createdAt: timestamp('criado_em').notNull().defaultNow(),
+	updatedAt: timestamp('atualizado_em').notNull().defaultNow()
 })
