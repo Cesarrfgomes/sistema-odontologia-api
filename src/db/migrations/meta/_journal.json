@@ -22,6 +22,13 @@
       "when": 1763825272456,
       "tag": "0002_common_slipstream",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1763862096233,
+      "tag": "0003_bright_phantom_reporter",
+      "breakpoints": true
     }
   ]
 }

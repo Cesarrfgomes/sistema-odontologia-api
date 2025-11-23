@@ -1,6 +1,7 @@
 services:
-    api-dentist-pg:
+    postgres:
         image: bitnami/postgresql:latest
+        container_name: odonto-api
         ports:
             - 5432:5432
         environment:
@@ -8,4 +9,4 @@ services:
             POSTGRES_PASSWORD: docker
             POSTGRES_DB: meudente
         volumes:
-            - ./docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+           - ./docker:/docker-entrypoint-initdb.d
