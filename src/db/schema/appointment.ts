@@ -4,6 +4,7 @@ import {
 	numeric,
 	pgEnum,
 	pgTable,
+	text,
 	time,
 	timestamp,
 	uuid,
@@ -24,7 +25,7 @@ export const appointmentStatus = pgEnum('status_agendamento', [
 
 export const appointment = pgTable('agendamento', {
 	id: integer().primaryKey().generatedAlwaysAsIdentity(),
-	patientId: uuid('paciente_id')
+	patientId: text('paciente_id')
 		.references(() => patient.id)
 		.notNull(),
 	procedureId: uuid('procedimento_id')
