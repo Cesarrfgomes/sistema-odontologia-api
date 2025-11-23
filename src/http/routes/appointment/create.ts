@@ -4,9 +4,12 @@ import { appointmentRepository } from '../../../db/repositories/appointment-repo
 import { patientRepository } from '../../../db/repositories/patient-repository.ts'
 import { procedureRepository } from '../../../db/repositories/procedure-repository.ts'
 import { userRepository } from '../../../db/repositories/user-repository.ts'
+import { verifyJwt } from '../../middleware/verify-jwt.ts'
 import { NotFoundError } from '../_errors/not-found-error.ts'
 
 export const createAppointmentRoute: FastifyPluginCallbackZod = (app) => {
+	app.addHook('preHandler', verifyJwt)
+
 	app.post(
 		'/agendamentos',
 		{
@@ -35,7 +38,11 @@ export const createAppointmentRoute: FastifyPluginCallbackZod = (app) => {
 			const { scheduleDate, scheduleTime, patientId, procedureId, doctorId } =
 				request.body
 
-			const userId = request.user.sub
+			const userId = request.user?.sub
+
+			if (!userId) {
+				throw new NotFoundError('Usuário não autenticado')
+			}
 
 			const user = await userRepository.findById(userId)
 

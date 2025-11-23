@@ -42,14 +42,9 @@ export const auth: FastifyPluginCallbackZod = (app) => {
 				throw new UnauthorizedError('Credenciais inválidas')
 			}
 
-			const token = await reply.jwtSign(
-				{},
-				{
-					sign: {
-						sub: user.id,
-					},
-				},
-			)
+			const token = await reply.jwtSign({
+				sub: user.id,
+			})
 
 			return reply.status(200).send({ access_token: token })
 		},

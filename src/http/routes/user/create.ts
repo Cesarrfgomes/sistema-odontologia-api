@@ -1,7 +1,7 @@
 import { hash } from 'bcrypt'
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z from 'zod'
-import { profileRepository } from '../../../db/repositories/profile-repository.ts'
+import { roleRepository } from '../../../db/repositories/role-repository.ts'
 import { userRepository } from '../../../db/repositories/user-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
@@ -13,7 +13,7 @@ const createUserSchema = z.object({
 	username: z.string(),
 	email: z.email(),
 	password: z.string().min(8),
-	profileId: z.number().int().positive(),
+	roleId: z.number().int().positive(),
 	confirmPassword: z.string().min(8),
 })
 
@@ -37,40 +37,40 @@ export const createUser: FastifyPluginCallbackZod = (app) => {
 			onRequest: [verifyJwt, verifyAdmin],
 		},
 		async (request, reply) => {
-			const {
-				fullName,
-				username,
-				email,
-				password,
-				confirmPassword,
-				profileId,
-			} = request.body
+		const {
+			fullName,
+			username,
+			email,
+			password,
+			confirmPassword,
+			roleId,
+		} = request.body
 
-			const userByEmail = await userRepository.findByEmail(email)
+		const userByEmail = await userRepository.findByEmail(email)
 
-			if (userByEmail) {
-				return reply.status(400).send({ message: 'Email already exists' })
-			}
+		if (userByEmail) {
+			return reply.status(400).send({ message: 'Email already exists' })
+		}
 
-			const profile = await profileRepository.findById(profileId)
+		const role = await roleRepository.findById(roleId)
 
-			if (!profile) {
-				throw new NotFoundError('Perfil não encontrado')
-			}
+		if (!role) {
+			throw new NotFoundError('Função não encontrada')
+		}
 
-			if (password !== confirmPassword) {
-				throw new BadRequestError('Senhas não conferem')
-			}
+		if (password !== confirmPassword) {
+			throw new BadRequestError('Senhas não conferem')
+		}
 
-			const encryptedPassword = await hash(password, 10)
+		const encryptedPassword = await hash(password, 10)
 
-			const { id } = await userRepository.create({
-				fullName,
-				username,
-				email,
-				password: encryptedPassword,
-				profileId,
-			})
+		const { id } = await userRepository.create({
+			fullName,
+			username,
+			email,
+			password: encryptedPassword,
+			roleId,
+		})
 
 			return reply.status(201).send({ id })
 		},

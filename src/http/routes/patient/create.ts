@@ -9,7 +9,7 @@ const createPatientSchema = z.object({
 	fullName: z.string(),
 	email: z.email(),
 	phoneNumber: z.string().min(10).max(15),
-	birthDate: z.date(),
+	birthDate: z.coerce.date(),
 	cpf: z.string().min(11).max(14),
 })
 

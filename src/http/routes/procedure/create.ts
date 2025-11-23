@@ -11,8 +11,8 @@ const createProcedureSchema = z.object({
 	description: z.string().min(1),
 	categoryId: z.uuid(),
 	value: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Invalid value format'),
-	duration: z.string().min(1),
-	status: z.enum(['ativo', 'inativo']).optional().default('ativo'),
+	duration: z.coerce.number().min(1),
+	isActive: z.boolean().optional().default(true),
 })
 
 export const createProcedure: FastifyPluginCallbackZod = (app) => {
@@ -39,7 +39,7 @@ export const createProcedure: FastifyPluginCallbackZod = (app) => {
 			onRequest: [verifyJwt, verifyAdmin],
 		},
 		async (request, reply) => {
-			const { name, description, categoryId, value, duration, status } =
+			const { name, description, categoryId, value, duration, isActive } =
 				request.body
 
 			const category = await procedureCategoryRepository.findById(categoryId)
@@ -53,8 +53,8 @@ export const createProcedure: FastifyPluginCallbackZod = (app) => {
 				description,
 				categoryId,
 				value,
-				duration,
-				status,
+				durationInMinutes: duration,
+				isActive,
 			})
 
 			return reply.status(201).send({ id: procedure.id })

@@ -5,50 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1763822611513,
-      "tag": "0000_chief_husk",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1763822649269,
-      "tag": "0001_chemical_sleepwalker",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1763825272456,
-      "tag": "0002_common_slipstream",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1763862096233,
-      "tag": "0003_bright_phantom_reporter",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1763865870086,
-      "tag": "0004_rapid_valeria_richards",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1763921808575,
-      "tag": "0005_salty_rage",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1763922796421,
-      "tag": "0006_open_beyonder",
+      "when": 1763924427493,
+      "tag": "0000_nervous_thunderball",
       "breakpoints": true
     }
   ]

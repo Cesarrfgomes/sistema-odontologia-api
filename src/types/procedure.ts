@@ -4,8 +4,8 @@ export type Procedure = {
 	description: string
 	categoryId: string
 	value: string
-	duration: string
-	status: 'ativo' | 'inativo'
+	durationInMinutes: number
+	isActive: boolean
 	createdAt?: Date
 }
 
