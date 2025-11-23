@@ -1,9 +1,10 @@
 export type User = {
 	id?: string
-	role: 'basic' | 'admin'
 	username: string
 	fullName: string
 	email: string
 	password: string
+	profileId: number
+	isActive?: boolean
 	createdAt?: Date
 }

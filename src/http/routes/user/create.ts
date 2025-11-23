@@ -1,6 +1,7 @@
 import { hash } from 'bcrypt'
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z from 'zod'
+import { profileRepository } from '../../../db/repositories/profile-repository.ts'
 import { userRepository } from '../../../db/repositories/user-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
@@ -10,7 +11,7 @@ const createUserSchema = z.object({
 	username: z.string(),
 	email: z.email(),
 	password: z.string().min(8),
-	role: z.enum(['basic', 'admin']).optional().default('basic'),
+	profileId: z.number().int().positive(),
 	confirmPassword: z.string().min(8)
 })
 
@@ -40,7 +41,7 @@ export const createUser: FastifyPluginCallbackZod = app => {
 				email,
 				password,
 				confirmPassword,
-				role
+				profileId
 			} = request.body
 
 			const userByEmail = await userRepository.findByEmail(email)
@@ -49,6 +50,14 @@ export const createUser: FastifyPluginCallbackZod = app => {
 				return reply
 					.status(400)
 					.send({ message: 'Email already exists' })
+			}
+
+			const profile = await profileRepository.findById(profileId)
+
+			if (!profile) {
+				return reply
+					.status(400)
+					.send({ message: 'Perfil não encontrado' })
 			}
 
 			if (password !== confirmPassword) {
@@ -64,7 +73,7 @@ export const createUser: FastifyPluginCallbackZod = app => {
 				username,
 				email,
 				password: encryptedPassword,
-				role
+				profileId
 			})
 
 			return reply.status(201).send({ id })

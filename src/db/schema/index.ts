@@ -7,6 +7,8 @@ import { paymentPlan } from './payment-plan.ts'
 import { paymentPlanCharge } from './payment-plan-charge.ts'
 import { procedure } from './procedure.ts'
 import { procedureCategory } from './procedure-category.ts'
+import { profile } from './profile.ts'
+import { role } from './role.ts'
 import { stock } from './stock.ts'
 import { supplier } from './supplier.ts'
 import { user } from './user.ts'
@@ -24,4 +26,6 @@ export const schema = {
 	stock,
 	department,
 	materialEntry,
+	profile,
+	role,
 }

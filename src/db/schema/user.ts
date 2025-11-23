@@ -1,7 +1,6 @@
-import { boolean, pgEnum, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { boolean, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { uuidv7 } from 'uuidv7'
-
-export const userRole = pgEnum('papel', ['basico', 'admin', 'medico'])
+import { profile } from './profile.ts'
 
 export const user = pgTable('usuario', {
 	id: text()
@@ -11,7 +10,9 @@ export const user = pgTable('usuario', {
 	fullName: text('nome').notNull(),
 	email: text('email').notNull().unique(),
 	password: text('senha').notNull(),
-	role: userRole().default('basico').notNull(),
+	profileId: integer('perfil_id')
+		.references(() => profile.id)
+		.notNull(),
 	isActive: boolean('ativo').notNull().default(true),
-	createdAt: timestamp('criado_em').notNull().defaultNow()
+	createdAt: timestamp('criado_em').notNull().defaultNow(),
 })

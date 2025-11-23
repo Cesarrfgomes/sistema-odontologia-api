@@ -20,6 +20,8 @@ import { createPaymentPlan } from './http/routes/payment/create-plan.ts'
 import { createPaymentRelation } from './http/routes/payment/create-relation.ts'
 import { createProcedure } from './http/routes/procedure/create.ts'
 import { createProcedureCategory } from './http/routes/procedure/create-category.ts'
+import { createProfile } from './http/routes/profile/create.ts'
+import { createRole } from './http/routes/role/create.ts'
 import { createSupplier } from './http/routes/supplier/create.ts'
 import { auth } from './http/routes/user/auth.ts'
 import { createUser } from './http/routes/user/create.ts'
@@ -69,6 +71,8 @@ app.register(createEquipament)
 app.register(createSupplier)
 app.register(createDepartment)
 app.register(createMaterialEntry)
+app.register(createProfile)
+app.register(createRole)
 
 app.listen({ port: env.PORT }).then(() => {
 	console.log(`HTTP server is running on port ${process.env.PORT}`)
