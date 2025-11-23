@@ -1,9 +1,14 @@
+import { department } from './department.ts'
+import { equipament } from './equipament.ts'
+import { materialEntry } from './material-entry.ts'
 import { patient } from './patient.ts'
 import { paymentMethod } from './payment-method.ts'
 import { paymentPlan } from './payment-plan.ts'
 import { paymentPlanCharge } from './payment-plan-charge.ts'
 import { procedure } from './procedure.ts'
 import { procedureCategory } from './procedure-category.ts'
+import { stock } from './stock.ts'
+import { supplier } from './supplier.ts'
 import { user } from './user.ts'
 
 export const schema = {
@@ -14,4 +19,9 @@ export const schema = {
 	paymentMethod,
 	paymentPlan,
 	paymentPlanCharge,
+	supplier,
+	equipament,
+	stock,
+	department,
+	materialEntry,
 }

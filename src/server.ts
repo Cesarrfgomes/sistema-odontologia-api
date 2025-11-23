@@ -10,13 +10,17 @@ import {
 	type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from './env/index.ts'
+import { createDepartment } from './http/routes/department/create.ts'
+import { createEquipament } from './http/routes/equipament/create.ts'
 import { healthCheckRoute } from './http/routes/health-check.ts'
+import { createMaterialEntry } from './http/routes/material-entry/create.ts'
 import { createPatient } from './http/routes/patient/create.ts'
 import { createPaymentMethod } from './http/routes/payment/create-method.ts'
 import { createPaymentPlan } from './http/routes/payment/create-plan.ts'
 import { createPaymentRelation } from './http/routes/payment/create-relation.ts'
 import { createProcedure } from './http/routes/procedure/create.ts'
 import { createProcedureCategory } from './http/routes/procedure/create-category.ts'
+import { createSupplier } from './http/routes/supplier/create.ts'
 import { auth } from './http/routes/user/auth.ts'
 import { createUser } from './http/routes/user/create.ts'
 
@@ -61,6 +65,10 @@ app.register(createProcedure)
 app.register(createPaymentMethod)
 app.register(createPaymentPlan)
 app.register(createPaymentRelation)
+app.register(createEquipament)
+app.register(createSupplier)
+app.register(createDepartment)
+app.register(createMaterialEntry)
 
 app.listen({ port: env.PORT }).then(() => {
 	console.log(`HTTP server is running on port ${process.env.PORT}`)

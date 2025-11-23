@@ -29,6 +29,13 @@
       "when": 1763862096233,
       "tag": "0003_bright_phantom_reporter",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1763865870086,
+      "tag": "0004_rapid_valeria_richards",
+      "breakpoints": true
     }
   ]
 }

@@ -9,7 +9,6 @@ export const verifyAdmin = async (
 
 	const user = await userRepository.findById(sub)
 
-	console.log(user)
 	if (user?.role !== 'admin') {
 		return reply.status(403).send({ message: 'Unauthorized' })
 	}
