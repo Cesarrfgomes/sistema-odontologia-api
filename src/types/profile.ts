@@ -1,6 +1,6 @@
 export type Profile = {
 	id?: number
 	name: string
-	isActive: boolean
+	isActive?: boolean
 	createdAt?: Date
 }

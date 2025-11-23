@@ -4,7 +4,7 @@ export type User = {
 	fullName: string
 	email: string
 	password: string
-	profileId: number
+	roleId: number
 	isActive?: boolean
 	createdAt?: Date
 }

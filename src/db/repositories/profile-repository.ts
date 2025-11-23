@@ -43,6 +43,12 @@ export class ProfileRepository {
 			.values(data)
 			.returning({ id: schema.profile.id })
 
+		console.log(newProfile)
+
+		if (!newProfile || typeof newProfile.id !== 'number') {
+			throw new Error('Falha ao criar perfil: ID não retornado')
+		}
+
 		return newProfile
 	}
 }

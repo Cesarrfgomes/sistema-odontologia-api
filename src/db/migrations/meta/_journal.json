@@ -36,6 +36,20 @@
       "when": 1763865870086,
       "tag": "0004_rapid_valeria_richards",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1763921808575,
+      "tag": "0005_salty_rage",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1763922796421,
+      "tag": "0006_open_beyonder",
+      "breakpoints": true
     }
   ]
 }

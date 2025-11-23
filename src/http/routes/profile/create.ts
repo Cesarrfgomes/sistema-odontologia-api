@@ -7,7 +7,6 @@ import { BadRequestError } from '../_errors/bad-request-error.ts'
 
 const createProfileSchema = z.object({
 	name: z.string().min(1),
-	isActive: z.boolean().optional().default(true),
 })
 
 export const createProfile: FastifyPluginCallbackZod = (app) => {
@@ -34,7 +33,7 @@ export const createProfile: FastifyPluginCallbackZod = (app) => {
 			onRequest: [verifyJwt, verifyAdmin],
 		},
 		async (request, reply) => {
-			const { name, isActive } = request.body
+			const { name } = request.body
 
 			const profileByName = await profileRepository.findByName(name)
 
@@ -44,7 +43,6 @@ export const createProfile: FastifyPluginCallbackZod = (app) => {
 
 			const newProfile = await profileRepository.create({
 				name,
-				isActive,
 			})
 
 			return reply.status(201).send({ id: newProfile.id })
