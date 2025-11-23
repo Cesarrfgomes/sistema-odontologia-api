@@ -3,6 +3,7 @@ import z from 'zod'
 import { patientRepository } from '../../../db/repositories/patient-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { BadRequestError } from '../_errors/bad-request-error.ts'
 
 const createPatientSchema = z.object({
 	fullName: z.string(),
@@ -41,13 +42,13 @@ export const createPatient: FastifyPluginCallbackZod = (app) => {
 			const patientByEmail = await patientRepository.findByEmail(email)
 
 			if (patientByEmail) {
-				return reply.status(400).send({ message: 'Email already exists' })
+				throw new BadRequestError('Email já existe')
 			}
 
 			const patientByCpf = await patientRepository.findByCpf(cpf)
 
 			if (patientByCpf) {
-				return reply.status(400).send({ message: 'CPF already exists' })
+				throw new BadRequestError('CPF já existe')
 			}
 
 			const patient = await patientRepository.create({

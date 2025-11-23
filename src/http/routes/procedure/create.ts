@@ -4,6 +4,7 @@ import { procedureCategoryRepository } from '../../../db/repositories/procedure-
 import { procedureRepository } from '../../../db/repositories/procedure-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { NotFoundError } from '../_errors/not-found-error.ts'
 
 const createProcedureSchema = z.object({
 	name: z.string().min(1),
@@ -44,7 +45,7 @@ export const createProcedure: FastifyPluginCallbackZod = (app) => {
 			const category = await procedureCategoryRepository.findById(categoryId)
 
 			if (!category) {
-				return reply.status(400).send({ message: 'Category not found' })
+				throw new NotFoundError('Categoria não encontrada')
 			}
 
 			const procedure = await procedureRepository.create({

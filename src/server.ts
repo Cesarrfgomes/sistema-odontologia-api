@@ -10,6 +10,8 @@ import {
 	type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { env } from './env/index.ts'
+import { errorHandler } from './erro-handler.ts'
+import { createAppointmentRoute } from './http/routes/appointment/create.ts'
 import { createDepartment } from './http/routes/department/create.ts'
 import { createEquipament } from './http/routes/equipament/create.ts'
 import { healthCheckRoute } from './http/routes/health-check.ts'
@@ -34,6 +36,8 @@ app.register(fastifyCors, {
 
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
+
+app.setErrorHandler(errorHandler)
 
 app.register(fastifySwagger, {
 	openapi: {
@@ -73,6 +77,7 @@ app.register(createDepartment)
 app.register(createMaterialEntry)
 app.register(createProfile)
 app.register(createRole)
+app.register(createAppointmentRoute)
 
 app.listen({ port: env.PORT }).then(() => {
 	console.log(`HTTP server is running on port ${process.env.PORT}`)

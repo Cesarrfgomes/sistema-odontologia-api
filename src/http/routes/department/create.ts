@@ -3,6 +3,7 @@ import z from 'zod'
 import { departmentRepository } from '../../../db/repositories/department-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { BadRequestError } from '../_errors/bad-request-error.ts'
 
 const createDepartmentSchema = z.object({
 	name: z.string().min(1),
@@ -38,7 +39,7 @@ export const createDepartment: FastifyPluginCallbackZod = (app) => {
 			const departmentByName = await departmentRepository.findByName(name)
 
 			if (departmentByName) {
-				return reply.status(400).send({ message: 'Nome já cadastrado' })
+				throw new BadRequestError('Nome já cadastrado')
 			}
 
 			const newDepartment = await departmentRepository.create({

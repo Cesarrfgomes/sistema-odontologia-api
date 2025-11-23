@@ -3,6 +3,7 @@ import z from 'zod'
 import { paymentPlanRepository } from '../../../db/repositories/payment-plan-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { BadRequestError } from '../_errors/bad-request-error.ts'
 
 const createPaymentPlanSchema = z.object({
 	name: z.string().min(1),
@@ -42,9 +43,7 @@ export const createPaymentPlan: FastifyPluginCallbackZod = (app) => {
 			const paymentPlanByName = await paymentPlanRepository.findByName(name)
 
 			if (paymentPlanByName) {
-				return reply
-					.status(400)
-					.send({ message: 'Payment plan name already exists' })
+				throw new BadRequestError('Plano de pagamento já existe')
 			}
 
 			const paymentPlan = await paymentPlanRepository.create({

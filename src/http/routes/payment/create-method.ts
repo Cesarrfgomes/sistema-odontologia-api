@@ -3,6 +3,7 @@ import z from 'zod'
 import { paymentMethodRepository } from '../../../db/repositories/payment-method-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { BadRequestError } from '../_errors/bad-request-error.ts'
 
 const createPaymentMethodSchema = z.object({
 	name: z.string().min(1),
@@ -37,13 +38,10 @@ export const createPaymentMethod: FastifyPluginCallbackZod = (app) => {
 		async (request, reply) => {
 			const { name, installmentMax, maximumTerm, isActive } = request.body
 
-			const paymentMethodByName =
-				await paymentMethodRepository.findByName(name)
+			const paymentMethodByName = await paymentMethodRepository.findByName(name)
 
 			if (paymentMethodByName) {
-				return reply
-					.status(400)
-					.send({ message: 'Payment method name already exists' })
+				throw new BadRequestError('Método de pagamento já existe')
 			}
 
 			const paymentMethod = await paymentMethodRepository.create({

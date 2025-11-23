@@ -5,6 +5,8 @@ import { equipamentRepository } from '../../../db/repositories/equipament-reposi
 import { supplierRepository } from '../../../db/repositories/supplier-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { BadRequestError } from '../_errors/bad-request-error.ts'
+import { NotFoundError } from '../_errors/not-found-error.ts'
 
 const createEquipamentSchema = z.object({
 	description: z.string().min(1),
@@ -45,16 +47,14 @@ export const createEquipament: FastifyPluginCallbackZod = (app) => {
 				await equipamentRepository.findByBarCode(barCode)
 
 			if (equipamentByBarCode) {
-				return reply.status(400).send({ message: 'Código de barras já existe' })
+				throw new BadRequestError('Código de barras já existe')
 			}
 
 			if (supplierId) {
 				const supplier = await supplierRepository.findById(supplierId)
 
 				if (!supplier) {
-					return reply
-						.status(400)
-						.send({ message: 'Fornecedor não encontrado' })
+					throw new NotFoundError('Fornecedor não encontrado')
 				}
 			}
 
@@ -62,9 +62,7 @@ export const createEquipament: FastifyPluginCallbackZod = (app) => {
 				const department = await departmentRepository.findById(departmentId)
 
 				if (!department) {
-					return reply
-						.status(400)
-						.send({ message: 'Departamento não encontrado' })
+					throw new BadRequestError('Departamento não encontrado')
 				}
 			}
 

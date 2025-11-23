@@ -4,6 +4,7 @@ import { appointmentRepository } from '../../../db/repositories/appointment-repo
 import { patientRepository } from '../../../db/repositories/patient-repository.ts'
 import { procedureRepository } from '../../../db/repositories/procedure-repository.ts'
 import { userRepository } from '../../../db/repositories/user-repository.ts'
+import { NotFoundError } from '../_errors/not-found-error.ts'
 
 export const createAppointmentRoute: FastifyPluginCallbackZod = (app) => {
 	app.post(
@@ -22,10 +23,10 @@ export const createAppointmentRoute: FastifyPluginCallbackZod = (app) => {
 						id: z.number(),
 					}),
 					400: z.object({
-						error: z.string(),
+						message: z.string(),
 					}),
 					404: z.object({
-						error: z.string(),
+						message: z.string(),
 					}),
 				},
 			},
@@ -39,7 +40,7 @@ export const createAppointmentRoute: FastifyPluginCallbackZod = (app) => {
 			const user = await userRepository.findById(userId)
 
 			if (!user) {
-				return reply.status(404).send({ error: 'Usuário não encontrado' })
+				throw new NotFoundError('Usuário não encontrado')
 			}
 
 			const _doctor = await userRepository.findById(doctorId)
@@ -47,13 +48,13 @@ export const createAppointmentRoute: FastifyPluginCallbackZod = (app) => {
 			const patient = await patientRepository.findById(patientId)
 
 			if (!patient) {
-				return reply.status(404).send({ error: 'Paciente não encontrado' })
+				throw new NotFoundError('Paciente não encontrado')
 			}
 
 			const procedure = await procedureRepository.findById(procedureId)
 
 			if (!procedure) {
-				return reply.status(404).send({ error: 'Procedimento não encontrado' })
+				throw new NotFoundError('Procedimento não encontrado')
 			}
 
 			const appointment = await appointmentRepository.create({

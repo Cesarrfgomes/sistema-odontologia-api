@@ -6,6 +6,7 @@ import { stockRepository } from '../../../db/repositories/stock-repository.ts'
 import { supplierRepository } from '../../../db/repositories/supplier-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { NotFoundError } from '../_errors/not-found-error.ts'
 
 const createMaterialEntrySchema = z.object({
 	equipamentId: z.number().int().positive(),
@@ -43,13 +44,13 @@ export const createMaterialEntry: FastifyPluginCallbackZod = (app) => {
 			const equipament = await equipamentRepository.findById(equipamentId)
 
 			if (!equipament) {
-				return reply.status(400).send({ message: 'Equipamento não encontrado' })
+				throw new NotFoundError('Equipamento não encontrado')
 			}
 
 			const supplier = await supplierRepository.findById(supplierId)
 
 			if (!supplier) {
-				return reply.status(400).send({ message: 'Fornecedor não encontrado' })
+				throw new NotFoundError('Fornecedor não encontrado')
 			}
 
 			const newMaterialEntry = await materialEntryRepository.create({

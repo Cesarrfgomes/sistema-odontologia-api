@@ -3,6 +3,7 @@ import z from 'zod'
 import { procedureCategoryRepository } from '../../../db/repositories/procedure-category-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { BadRequestError } from '../_errors/bad-request-error.ts'
 
 const createProcedureCategorySchema = z.object({
 	name: z.string().min(1),
@@ -38,9 +39,7 @@ export const createProcedureCategory: FastifyPluginCallbackZod = (app) => {
 			const categoryByName = await procedureCategoryRepository.findByName(name)
 
 			if (categoryByName) {
-				return reply
-					.status(400)
-					.send({ message: 'Category name already exists' })
+				throw new BadRequestError('Categoria já existe')
 			}
 
 			const category = await procedureCategoryRepository.create({

@@ -3,6 +3,7 @@ import z from 'zod'
 import { profileRepository } from '../../../db/repositories/profile-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { BadRequestError } from '../_errors/bad-request-error.ts'
 
 const createProfileSchema = z.object({
 	name: z.string().min(1),
@@ -38,7 +39,7 @@ export const createProfile: FastifyPluginCallbackZod = (app) => {
 			const profileByName = await profileRepository.findByName(name)
 
 			if (profileByName) {
-				return reply.status(400).send({ message: 'Nome já cadastrado' })
+				throw new BadRequestError('Perfil já existe')
 			}
 
 			const newProfile = await profileRepository.create({

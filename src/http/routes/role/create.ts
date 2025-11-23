@@ -4,6 +4,7 @@ import { profileRepository } from '../../../db/repositories/profile-repository.t
 import { roleRepository } from '../../../db/repositories/role-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { NotFoundError } from '../_errors/not-found-error.ts'
 
 const createRoleSchema = z.object({
 	name: z.string().min(1),
@@ -39,7 +40,7 @@ export const createRole: FastifyPluginCallbackZod = (app) => {
 			const profile = await profileRepository.findById(profileId)
 
 			if (!profile) {
-				return reply.status(400).send({ message: 'Perfil não encontrado' })
+				throw new NotFoundError('Perfil não encontrado')
 			}
 
 			const newRole = await roleRepository.create({

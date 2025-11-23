@@ -4,6 +4,8 @@ import { db } from '../../../db/connection.ts'
 import { paymentMethodRepository } from '../../../db/repositories/payment-method-repository.ts'
 import { paymentPlanRepository } from '../../../db/repositories/payment-plan-repository.ts'
 import { schema } from '../../../db/schema/index.ts'
+import { BadRequestError } from '../_errors/bad-request-error.ts'
+import { NotFoundError } from '../_errors/not-found-error.ts'
 
 export const createPaymentRelation: FastifyPluginCallbackZod = (app) => {
 	app.post(
@@ -36,26 +38,21 @@ export const createPaymentRelation: FastifyPluginCallbackZod = (app) => {
 			const paymentPlan = await paymentPlanRepository.findById(paymentPlanId)
 
 			if (!paymentPlan) {
-				return reply.status(404).send({
-					message: 'Plano de pagamento não encontrado',
-				})
+				throw new NotFoundError('Plano de pagamento não encontrado')
 			}
 
 			const paymentMethod =
 				await paymentMethodRepository.findById(paymentMethodId)
 
 			if (!paymentMethod) {
-				return reply.status(404).send({
-					message: 'Método de pagamento não encontrado',
-				})
+				throw new NotFoundError('Método de pagamento não encontrado')
 			}
 
 			if (paymentPlan.paymentType === 'VP') {
 				if (paymentMethod.maximumTerm < paymentPlan.maximumterm) {
-					return reply.status(400).send({
-						message:
-							'O método de pagamento não suporta o número de parcelas do plano de pagamento',
-					})
+					throw new BadRequestError(
+						'O método de pagamento não suporta o número de parcelas do plano de pagamento',
+					)
 				}
 
 				await db.insert(schema.paymentPlanCharge).values({

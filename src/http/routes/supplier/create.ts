@@ -3,6 +3,7 @@ import z from 'zod'
 import { supplierRepository } from '../../../db/repositories/supplier-repository.ts'
 import { verifyAdmin } from '../../middleware/verify-admin.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
+import { BadRequestError } from '../_errors/bad-request-error.ts'
 
 const createSupplierSchema = z.object({
 	supplier: z.string().min(1),
@@ -40,7 +41,7 @@ export const createSupplier: FastifyPluginCallbackZod = (app) => {
 			const supplierByEmail = await supplierRepository.findByEmail(email)
 
 			if (supplierByEmail) {
-				return reply.status(400).send({ message: 'Email já cadastrado' })
+				throw new BadRequestError('Email já cadastrado')
 			}
 
 			const newSupplier = await supplierRepository.create({
