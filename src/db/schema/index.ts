@@ -1,3 +1,8 @@
+import {
+	appointment,
+	appointmentEquipament,
+	appointmentPayment,
+} from './appointment.ts'
 import { department } from './department.ts'
 import { equipament } from './equipament.ts'
 import { materialEntry } from './material-entry.ts'
@@ -28,4 +33,7 @@ export const schema = {
 	materialEntry,
 	profile,
 	role,
+	appointment,
+	appointmentPayment,
+	appointmentEquipament,
 }
