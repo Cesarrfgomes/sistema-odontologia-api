@@ -22,6 +22,11 @@ export const appointmentStatus = pgEnum('status_agendamento', [
 	'COMPLETO',
 ])
 
+export const appointmentPaymentStatus = pgEnum('status_pagamento', [
+	'PENDENTE',
+	'PAGO',
+])
+
 export const appointment = pgTable('agendamento', {
 	id: integer().primaryKey().generatedAlwaysAsIdentity(),
 	patientId: text('paciente_id')
@@ -39,14 +44,12 @@ export const appointment = pgTable('agendamento', {
 		.references(() => user.id)
 		.notNull(),
 	status: appointmentStatus('status').notNull().default('PENDENTE'),
+	paymentStatus: appointmentPaymentStatus('status_pagamento')
+		.notNull()
+		.default('PENDENTE'),
 	createdAt: timestamp('criado_em').notNull().defaultNow(),
 	updatedAt: timestamp('atualizado_em').notNull().defaultNow(),
 })
-
-export const appointmentPaymentStatus = pgEnum('status_pagamento', [
-	'PENDENTE',
-	'PAGO',
-])
 
 export const appointmentPayment = pgTable('agendamento_pagamento', {
 	appointmentId: integer('agendamento_id').references(() => appointment.id),

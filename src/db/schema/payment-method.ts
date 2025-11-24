@@ -9,5 +9,5 @@ export const paymentMethod = pgTable('cobranca', {
 	installmentMax: integer('parcelas_maximas').notNull().default(1),
 	maximumTerm: integer('prazo_maximo').notNull().default(30),
 	isActive: boolean('ativo').notNull().default(true),
-	createdAt: timestamp('criado_em').notNull().defaultNow()
+	createdAt: timestamp('criado_em').notNull().defaultNow(),
 })

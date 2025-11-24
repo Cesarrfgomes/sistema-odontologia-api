@@ -1,0 +1,1 @@
+ALTER TABLE "agendamento" ADD COLUMN "status_pagamento" "status_pagamento" DEFAULT 'PENDENTE' NOT NULL;

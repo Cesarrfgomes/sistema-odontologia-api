@@ -1,12 +1,18 @@
-import { desc, eq } from 'drizzle-orm'
+import { count, desc, eq } from 'drizzle-orm'
 import type { Department } from '../../types/department.ts'
 import { db } from '../connection.ts'
 import { schema } from '../schema/index.ts'
 
 export class DepartmentRepository {
-	async findAll(): Promise<Department[]> {
+	async findAll(): Promise<Partial<Department>[]> {
 		return await db
-			.select()
+			.select({
+				id: schema.department.id,
+				name: schema.department.name,
+				isActive: schema.department.isActive,
+				createdAt: schema.department.createdAt,
+				count: count(schema.department.id),
+			})
 			.from(schema.department)
 			.orderBy(desc(schema.department.createdAt))
 	}

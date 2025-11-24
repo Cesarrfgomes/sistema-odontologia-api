@@ -1,5 +1,9 @@
 import { desc, eq } from 'drizzle-orm'
-import type { Appointment } from '../../types/appoinment.ts'
+import type {
+	Appointment,
+	AppointmentEquipament,
+	AppointmentPayment,
+} from '../../types/appoinment.ts'
 import { db } from '../connection.ts'
 import { schema } from '../schema/index.ts'
 
@@ -10,7 +14,6 @@ type AppointmentCreate = {
 	procedureId: string
 	userId: string
 	doctorId: string
-	status: 'PENDENTE' | 'CONFIRMADO' | 'CANCELADO' | 'COMPLETO'
 }
 
 type AppointmentResponse = {
@@ -34,6 +37,30 @@ export class AppointmentRepository {
 			.where(eq(schema.appointment.id, id))
 
 		return appointment
+	}
+
+	async cretePayment(data: AppointmentPayment): Promise<void> {
+		await db
+			.insert(schema.appointmentPayment)
+			.values({
+				appointmentId: data.appointmentId,
+				paymentId: data.paymentId,
+				paymentPlanId: data.paymentPlanId,
+				value: data.value.toString(),
+				paymentStatus: data.paymentStatus,
+			})
+			.returning()
+	}
+
+	async creteEquipament(data: AppointmentEquipament): Promise<void> {
+		await db.insert(schema.appointmentEquipament).values(data).returning()
+	}
+
+	async update(id: number, data: Partial<Appointment>): Promise<void> {
+		await db
+			.update(schema.appointment)
+			.set(data)
+			.where(eq(schema.appointment.id, id))
 	}
 
 	async create(data: AppointmentCreate): Promise<AppointmentResponse> {
