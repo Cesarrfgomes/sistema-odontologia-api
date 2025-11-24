@@ -77,7 +77,6 @@ export const finalizeAppointment: FastifyPluginCallbackZod = (app) => {
 
 				await appointmentRepository.update(appointment.id, {
 					status: 'COMPLETO',
-					paymentStatus: 'PAGO',
 				})
 
 				return reply.status(200).send({
