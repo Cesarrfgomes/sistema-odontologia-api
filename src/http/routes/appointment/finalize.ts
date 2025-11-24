@@ -13,7 +13,7 @@ export const finalizeAppointment: FastifyPluginCallbackZod = (app) => {
 		{
 			schema: {
 				params: z.object({
-					id: z.number(),
+					id: z.coerce.number(),
 				}),
 				body: z.object({
 					payments: z.array(
