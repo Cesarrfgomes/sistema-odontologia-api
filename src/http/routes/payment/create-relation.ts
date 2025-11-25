@@ -7,7 +7,7 @@ import { schema } from '../../../db/schema/index.ts'
 import { BadRequestError } from '../_errors/bad-request-error.ts'
 import { NotFoundError } from '../_errors/not-found-error.ts'
 
-export const createPaymentRelation: FastifyPluginCallbackZod = (app) => {
+export const createPaymentRelation: FastifyPluginCallbackZod = app => {
 	app.post(
 		'/pagamento/relacionar',
 		{
@@ -17,32 +17,35 @@ export const createPaymentRelation: FastifyPluginCallbackZod = (app) => {
 					'Relacionar um plano de pagamento com um método de pagamento',
 				body: z.object({
 					paymentPlanId: z.string(),
-					paymentMethodId: z.string(),
+					paymentMethodId: z.string()
 				}),
 				response: {
 					204: z.object({
-						message: z.string(),
+						message: z.string()
 					}),
 					400: z.object({
-						message: z.string(),
+						message: z.string()
 					}),
 					404: z.object({
-						message: z.string(),
-					}),
-				},
-			},
+						message: z.string()
+					})
+				}
+			}
 		},
 		async (request, reply) => {
 			const { paymentPlanId, paymentMethodId } = request.body
 
-			const paymentPlan = await paymentPlanRepository.findById(paymentPlanId)
+			const paymentPlan = await paymentPlanRepository.findById(
+				paymentPlanId
+			)
 
 			if (!paymentPlan) {
 				throw new NotFoundError('Plano de pagamento não encontrado')
 			}
 
-			const paymentMethod =
-				await paymentMethodRepository.findById(paymentMethodId)
+			const paymentMethod = await paymentMethodRepository.findById(
+				paymentMethodId
+			)
 
 			if (!paymentMethod) {
 				throw new NotFoundError('Método de pagamento não encontrado')
@@ -51,13 +54,13 @@ export const createPaymentRelation: FastifyPluginCallbackZod = (app) => {
 			if (paymentPlan.paymentType === 'VP') {
 				if (paymentMethod.maximumTerm < paymentPlan.maximumterm) {
 					throw new BadRequestError(
-						'O método de pagamento não suporta o número de parcelas do plano de pagamento',
+						'O método de pagamento não suporta o número de parcelas do plano de pagamento'
 					)
 				}
 
 				await db.insert(schema.paymentPlanCharge).values({
 					paymentMethodId: paymentMethod?.id ?? '',
-					paymentPlanId: paymentPlan.id ?? '',
+					paymentPlanId: paymentPlan.id ?? ''
 				})
 
 				return reply.status(204).send()
@@ -65,10 +68,10 @@ export const createPaymentRelation: FastifyPluginCallbackZod = (app) => {
 
 			await db.insert(schema.paymentPlanCharge).values({
 				paymentMethodId: paymentMethod?.id ?? '',
-				paymentPlanId: paymentPlan.id ?? '',
+				paymentPlanId: paymentPlan.id ?? ''
 			})
 
 			return reply.status(204).send()
-		},
+		}
 	)
 }

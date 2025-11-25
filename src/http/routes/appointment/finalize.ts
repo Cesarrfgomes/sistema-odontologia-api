@@ -4,8 +4,9 @@ import { appointmentRepository } from '../../../db/repositories/appointment-repo
 import { procedureRepository } from '../../../db/repositories/procedure-repository.ts'
 import { verifyJwt } from '../../middleware/verify-jwt.ts'
 import { NotFoundError } from '../_errors/not-found-error.ts'
+import { stockRepository } from '../../../db/repositories/stock-repository.ts'
 
-export const finalizeAppointment: FastifyPluginCallbackZod = (app) => {
+export const finalizeAppointment: FastifyPluginCallbackZod = app => {
 	app.addHook('preHandler', verifyJwt)
 
 	app.post(
@@ -13,24 +14,24 @@ export const finalizeAppointment: FastifyPluginCallbackZod = (app) => {
 		{
 			schema: {
 				params: z.object({
-					id: z.coerce.number(),
+					id: z.coerce.number()
 				}),
 				body: z.object({
 					payments: z.array(
 						z.object({
 							paymentMethodId: z.string(),
 							paymentPlanId: z.string(),
-							amount: z.coerce.number().positive(),
-						}),
+							amount: z.coerce.number().positive()
+						})
 					),
 					equipaments: z.array(
 						z.object({
 							equipamentId: z.number(),
-							quantity: z.coerce.number().positive(),
-						}),
-					),
-				}),
-			},
+							quantity: z.coerce.number().positive()
+						})
+					)
+				})
+			}
 		},
 		async (request, reply) => {
 			const { id } = request.params
@@ -43,7 +44,7 @@ export const finalizeAppointment: FastifyPluginCallbackZod = (app) => {
 			}
 
 			const procedure = await procedureRepository.findById(
-				appointment.procedureId,
+				appointment.procedureId
 			)
 
 			if (!procedure) {
@@ -63,7 +64,7 @@ export const finalizeAppointment: FastifyPluginCallbackZod = (app) => {
 						paymentId: payment.paymentMethodId,
 						paymentPlanId: payment.paymentPlanId,
 						paymentStatus: 'PAGO',
-						value: payment.amount,
+						value: payment.amount
 					})
 				}
 
@@ -71,16 +72,24 @@ export const finalizeAppointment: FastifyPluginCallbackZod = (app) => {
 					await appointmentRepository.creteEquipament({
 						appointmentId: appointment.id,
 						equipamentId: equipament.equipamentId,
-						quantity: equipament.quantity,
+						quantity: equipament.quantity
+					})
+
+					const stock = await stockRepository.findByEquipamentId(
+						equipament.equipamentId
+					)
+
+					await stockRepository.update(equipament.equipamentId, {
+						quantity: stock!.quantity - equipament.quantity
 					})
 				}
 
 				await appointmentRepository.update(appointment.id, {
-					status: 'COMPLETO',
+					status: 'COMPLETO'
 				})
 
 				return reply.status(200).send({
-					message: 'Agendamento finalizado com sucesso',
+					message: 'Agendamento finalizado com sucesso'
 				})
 			}
 
@@ -90,7 +99,7 @@ export const finalizeAppointment: FastifyPluginCallbackZod = (app) => {
 					paymentId: payment.paymentMethodId,
 					paymentPlanId: payment.paymentPlanId,
 					paymentStatus: 'PAGO',
-					value: payment.amount,
+					value: payment.amount
 				})
 			}
 
@@ -98,18 +107,18 @@ export const finalizeAppointment: FastifyPluginCallbackZod = (app) => {
 				await appointmentRepository.creteEquipament({
 					appointmentId: appointment.id,
 					equipamentId: equipament.equipamentId,
-					quantity: equipament.quantity,
+					quantity: equipament.quantity
 				})
 			}
 
 			await appointmentRepository.update(appointment.id, {
 				status: 'COMPLETO',
-				paymentStatus: 'PAGO',
+				paymentStatus: 'PAGO'
 			})
 
 			return reply.status(200).send({
-				message: 'Agendamento finalizado com sucesso',
+				message: 'Agendamento finalizado com sucesso'
 			})
-		},
+		}
 	)
 }
